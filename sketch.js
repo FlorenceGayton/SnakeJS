@@ -1,6 +1,6 @@
-const GRID_SIZE = 20;
-let headX = 200;
-let headY = 200;
+const GRID_SIZE = 40;
+let snakeX = [200];
+let snakeY = [200];
 
 let xSpeed = GRID_SIZE;
 let ySpeed = 0;
@@ -9,6 +9,7 @@ let foodX;
 let foodY;
 
 let isGameOver = false;
+
 
 // create canvas and set framerate
 function setup() {
@@ -21,11 +22,10 @@ function draw() {
     background(0);
     // make snake move if game isn't over
     if (!isGameOver) {
-        headX += xSpeed;
-        headY += ySpeed;
+        moveSnake();
     // check if game is over if snake collides with border
     if (
-      headX < 0 || headX >= width || headY < 0 || headY >= height
+      snakeX[0] < 0 || snakeX[0] >= width || snakeY[0] < 0 || snakeY[0] >= height
     ) {
       isGameOver = true;
       // change background to red when game over
@@ -33,15 +33,14 @@ function draw() {
     }
     // check if snake collides with food
     if(
-        foodX >= headX && foodX <= headX + GRID_SIZE &&
-        foodY >= headY && foodY <= headY + GRID_SIZE
+        foodX >= snakeX[0] && foodX <= snakeX[0] + GRID_SIZE &&
+        foodY >= snakeY[0] && foodY <= snakeY[0] + GRID_SIZE
     ){
         isSnakeOverFood();
     }
   }
-  // create snake
-  fill(32, 194, 14);
-  rect(headX, headY, GRID_SIZE, GRID_SIZE);
+  // call snake to be drawn
+  drawSnake();
   // create food
   fill(255);
   ellipse(foodX + GRID_SIZE / 2, foodY + GRID_SIZE / 2, GRID_SIZE);
@@ -63,6 +62,7 @@ function keyPressed() {
   }
 }
 
+
 // randomise food position on the canvas
 function placeFood() {
   foodX = floor(random(width / GRID_SIZE)) * GRID_SIZE;
@@ -73,5 +73,40 @@ function placeFood() {
 // reset the food position when food is touched
 function isSnakeOverFood(){
     placeFood();
+    addSegment();
 }
 
+// create snake function
+function drawSnake() {
+  for (let i = 0; i < snakeX.length; i++) {
+    if (i === 0) {
+        let col = 0;
+        fill(col);
+  } 
+    else {
+        fill(col + 10);
+        
+  }
+  // draw the segment
+}
+  for (let i = 0; i < snakeX.length; i++) {
+    rect(snakeX[i], snakeY[i], GRID_SIZE, GRID_SIZE);
+  }
+}
+// moving the snake
+function moveSnake() {
+    // if the snake eats a food, the array is updated
+    for (let i = snakeX.length - 1; i > 0; i--) {
+        snakeX[i] = snakeX[i - 1];
+        snakeY[i] = snakeY[i - 1];
+    }
+    // movement
+    snakeX[0] += xSpeed;
+    snakeY[0] += ySpeed;
+}
+
+
+function addSegment(){
+    snakeX.push(snakeX[snakeX.length - 1] - GRID_SIZE * xSpeed);
+    snakeY.push(snakeY[snakeY.length - 1] - GRID_SIZE * ySpeed);
+}
