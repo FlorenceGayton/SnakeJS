@@ -46,7 +46,7 @@ function draw() {
   fill(255);
   ellipse(foodX + GRID_SIZE / 2, foodY + GRID_SIZE / 2, GRID_SIZE);
 }
-// move snake
+// move snake with wasd
 function keyPressed() {
   if (keyCode === UP_ARROW || key === 'w') {
     xSpeed = 0;
@@ -63,12 +63,15 @@ function keyPressed() {
   }
 }
 
+// randomise food position on the canvas
 function placeFood() {
   foodX = floor(random(width / GRID_SIZE)) * GRID_SIZE;
   foodY = floor(random(height / GRID_SIZE)) * GRID_SIZE;
 }
 
 
+// reset the food position when food is touched
 function isSnakeOverFood(){
     placeFood();
 }
+
