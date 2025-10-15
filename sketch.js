@@ -10,7 +10,7 @@ let foodY;
 
 let isGameOver = false;
 
-
+// create canvas and set framerate
 function setup() {
   createCanvas(600, 600);
   placeFood();
@@ -19,31 +19,33 @@ function setup() {
 
 function draw() {
     background(0);
+    // make snake move if game isn't over
     if (!isGameOver) {
         headX += xSpeed;
         headY += ySpeed;
-
+    // check if game is over if snake collides with border
     if (
-      headX < 0 || headX >= width ||
-      headY < 0 || headY >= height
+      headX < 0 || headX >= width || headY < 0 || headY >= height
     ) {
       isGameOver = true;
-      background(255, 0, 0)
+      // change background to red when game over
+      background(255, 0, 0);
     }
+    // check if snake collides with food
     if(
         foodX >= headX && foodY <= headY
     ){
         isSnakeOverFood();
     }
   }
-
+  // create snake
   fill(32, 194, 14);
   rect(headX, headY, GRID_SIZE, GRID_SIZE);
-
+  // create food
   fill(255);
   ellipse(foodX + GRID_SIZE / 2, foodY + GRID_SIZE / 2, GRID_SIZE);
 }
-
+// move snake
 function keyPressed() {
   if (keyCode === UP_ARROW || key === 'w') {
     xSpeed = 0;
