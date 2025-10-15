@@ -1,5 +1,4 @@
 const GRID_SIZE = 20;
-
 let headX = 200;
 let headY = 200;
 
@@ -11,6 +10,7 @@ let foodY;
 
 let isGameOver = false;
 
+
 function setup() {
   createCanvas(600, 600);
   placeFood();
@@ -18,24 +18,29 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-
-  if (!isGameOver) {
-    headX += xSpeed;
-    headY += ySpeed;
+    background(0);
+    if (!isGameOver) {
+        headX += xSpeed;
+        headY += ySpeed;
 
     if (
       headX < 0 || headX >= width ||
       headY < 0 || headY >= height
     ) {
       isGameOver = true;
+      background(255, 0, 0)
+    }
+    if(
+        foodX >= headX && foodY <= headY
+    ){
+        isSnakeOverFood();
     }
   }
 
-  fill(0, 255, 0);
+  fill(32, 194, 14);
   rect(headX, headY, GRID_SIZE, GRID_SIZE);
 
-  fill(255, 0, 0);
+  fill(255);
   ellipse(foodX + GRID_SIZE / 2, foodY + GRID_SIZE / 2, GRID_SIZE);
 }
 
@@ -53,4 +58,14 @@ function keyPressed() {
     xSpeed = GRID_SIZE;
     ySpeed = 0;
   }
+}
+
+function placeFood() {
+  foodX = floor(random(width / GRID_SIZE)) * GRID_SIZE;
+  foodY = floor(random(height / GRID_SIZE)) * GRID_SIZE;
+}
+
+
+function isSnakeOverFood(){
+    placeFood();
 }
