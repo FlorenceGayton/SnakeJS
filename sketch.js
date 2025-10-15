@@ -33,7 +33,8 @@ function draw() {
     }
     // check if snake collides with food
     if(
-        foodX >= headX && foodY <= headY
+        foodX >= headX && foodX <= headX + GRID_SIZE &&
+        foodY >= headY && foodY <= headY + GRID_SIZE
     ){
         isSnakeOverFood();
     }
